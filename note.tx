@@ -1,0 +1,42 @@
+import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+
+export default function DetailScreen({ route }) {
+  console.log(route.params.idMeal);
+  const [detailMeals, setDetailMeals] = useState(null);
+
+  const Detail = () => {
+    fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + route.params.idMeal.toString())
+      .then((res) => res.json())
+      .then((data) => {
+        setDetailMeals(data.meals[0]);
+        console.log(detailMeals);
+      });
+  };
+
+  useEffect(() => {
+    Detail();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <Text style={{}}>{detailMeals?.strInstructions}</Text>
+
+      <FlatList
+        renderItem={({ item }) => {
+          return (
+            <View>
+            </View>
+          );
+        }}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#E8AA42',
+  },
+});
